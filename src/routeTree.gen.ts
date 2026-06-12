@@ -15,8 +15,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/app.settings'
-import { Route as AuthenticatedAppClassesRouteImport } from './routes/_authenticated/app.classes'
-import { Route as AuthenticatedAppBulletinsRouteImport } from './routes/_authenticated/app.bulletins'
+import { Route as AuthenticatedAppClassesIndexRouteImport } from './routes/_authenticated/app.classes.index'
+import { Route as AuthenticatedAppBulletinsIndexRouteImport } from './routes/_authenticated/app.bulletins.index'
 import { Route as AuthenticatedAppClassesClassIdRouteImport } from './routes/_authenticated/app.classes.$classId'
 import { Route as AuthenticatedAppBulletinsNewRouteImport } from './routes/_authenticated/app.bulletins.new'
 import { Route as AuthenticatedAppBulletinsIdRouteImport } from './routes/_authenticated/app.bulletins.$id'
@@ -51,58 +51,59 @@ const AuthenticatedAppSettingsRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
-const AuthenticatedAppClassesRoute = AuthenticatedAppClassesRouteImport.update({
-  id: '/classes',
-  path: '/classes',
-  getParentRoute: () => AuthenticatedAppRoute,
-} as any)
-const AuthenticatedAppBulletinsRoute =
-  AuthenticatedAppBulletinsRouteImport.update({
-    id: '/bulletins',
-    path: '/bulletins',
+const AuthenticatedAppClassesIndexRoute =
+  AuthenticatedAppClassesIndexRouteImport.update({
+    id: '/classes/',
+    path: '/classes/',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppBulletinsIndexRoute =
+  AuthenticatedAppBulletinsIndexRouteImport.update({
+    id: '/bulletins/',
+    path: '/bulletins/',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
 const AuthenticatedAppClassesClassIdRoute =
   AuthenticatedAppClassesClassIdRouteImport.update({
-    id: '/$classId',
-    path: '/$classId',
-    getParentRoute: () => AuthenticatedAppClassesRoute,
+    id: '/classes/$classId',
+    path: '/classes/$classId',
+    getParentRoute: () => AuthenticatedAppRoute,
   } as any)
 const AuthenticatedAppBulletinsNewRoute =
   AuthenticatedAppBulletinsNewRouteImport.update({
-    id: '/new',
-    path: '/new',
-    getParentRoute: () => AuthenticatedAppBulletinsRoute,
+    id: '/bulletins/new',
+    path: '/bulletins/new',
+    getParentRoute: () => AuthenticatedAppRoute,
   } as any)
 const AuthenticatedAppBulletinsIdRoute =
   AuthenticatedAppBulletinsIdRouteImport.update({
-    id: '/$id',
-    path: '/$id',
-    getParentRoute: () => AuthenticatedAppBulletinsRoute,
+    id: '/bulletins/$id',
+    path: '/bulletins/$id',
+    getParentRoute: () => AuthenticatedAppRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/app': typeof AuthenticatedAppRouteWithChildren
-  '/app/bulletins': typeof AuthenticatedAppBulletinsRouteWithChildren
-  '/app/classes': typeof AuthenticatedAppClassesRouteWithChildren
   '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/bulletins/$id': typeof AuthenticatedAppBulletinsIdRoute
   '/app/bulletins/new': typeof AuthenticatedAppBulletinsNewRoute
   '/app/classes/$classId': typeof AuthenticatedAppClassesClassIdRoute
+  '/app/bulletins/': typeof AuthenticatedAppBulletinsIndexRoute
+  '/app/classes/': typeof AuthenticatedAppClassesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/app/bulletins': typeof AuthenticatedAppBulletinsRouteWithChildren
-  '/app/classes': typeof AuthenticatedAppClassesRouteWithChildren
   '/app/settings': typeof AuthenticatedAppSettingsRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/bulletins/$id': typeof AuthenticatedAppBulletinsIdRoute
   '/app/bulletins/new': typeof AuthenticatedAppBulletinsNewRoute
   '/app/classes/$classId': typeof AuthenticatedAppClassesClassIdRoute
+  '/app/bulletins': typeof AuthenticatedAppBulletinsIndexRoute
+  '/app/classes': typeof AuthenticatedAppClassesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -110,13 +111,13 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
-  '/_authenticated/app/bulletins': typeof AuthenticatedAppBulletinsRouteWithChildren
-  '/_authenticated/app/classes': typeof AuthenticatedAppClassesRouteWithChildren
   '/_authenticated/app/settings': typeof AuthenticatedAppSettingsRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/bulletins/$id': typeof AuthenticatedAppBulletinsIdRoute
   '/_authenticated/app/bulletins/new': typeof AuthenticatedAppBulletinsNewRoute
   '/_authenticated/app/classes/$classId': typeof AuthenticatedAppClassesClassIdRoute
+  '/_authenticated/app/bulletins/': typeof AuthenticatedAppBulletinsIndexRoute
+  '/_authenticated/app/classes/': typeof AuthenticatedAppClassesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -124,37 +125,37 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/app'
-    | '/app/bulletins'
-    | '/app/classes'
     | '/app/settings'
     | '/app/'
     | '/app/bulletins/$id'
     | '/app/bulletins/new'
     | '/app/classes/$classId'
+    | '/app/bulletins/'
+    | '/app/classes/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
-    | '/app/bulletins'
-    | '/app/classes'
     | '/app/settings'
     | '/app'
     | '/app/bulletins/$id'
     | '/app/bulletins/new'
     | '/app/classes/$classId'
+    | '/app/bulletins'
+    | '/app/classes'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/app'
-    | '/_authenticated/app/bulletins'
-    | '/_authenticated/app/classes'
     | '/_authenticated/app/settings'
     | '/_authenticated/app/'
     | '/_authenticated/app/bulletins/$id'
     | '/_authenticated/app/bulletins/new'
     | '/_authenticated/app/classes/$classId'
+    | '/_authenticated/app/bulletins/'
+    | '/_authenticated/app/classes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -207,86 +208,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppSettingsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
-    '/_authenticated/app/classes': {
-      id: '/_authenticated/app/classes'
+    '/_authenticated/app/classes/': {
+      id: '/_authenticated/app/classes/'
       path: '/classes'
-      fullPath: '/app/classes'
-      preLoaderRoute: typeof AuthenticatedAppClassesRouteImport
+      fullPath: '/app/classes/'
+      preLoaderRoute: typeof AuthenticatedAppClassesIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
-    '/_authenticated/app/bulletins': {
-      id: '/_authenticated/app/bulletins'
+    '/_authenticated/app/bulletins/': {
+      id: '/_authenticated/app/bulletins/'
       path: '/bulletins'
-      fullPath: '/app/bulletins'
-      preLoaderRoute: typeof AuthenticatedAppBulletinsRouteImport
+      fullPath: '/app/bulletins/'
+      preLoaderRoute: typeof AuthenticatedAppBulletinsIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/classes/$classId': {
       id: '/_authenticated/app/classes/$classId'
-      path: '/$classId'
+      path: '/classes/$classId'
       fullPath: '/app/classes/$classId'
       preLoaderRoute: typeof AuthenticatedAppClassesClassIdRouteImport
-      parentRoute: typeof AuthenticatedAppClassesRoute
+      parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/bulletins/new': {
       id: '/_authenticated/app/bulletins/new'
-      path: '/new'
+      path: '/bulletins/new'
       fullPath: '/app/bulletins/new'
       preLoaderRoute: typeof AuthenticatedAppBulletinsNewRouteImport
-      parentRoute: typeof AuthenticatedAppBulletinsRoute
+      parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/bulletins/$id': {
       id: '/_authenticated/app/bulletins/$id'
-      path: '/$id'
+      path: '/bulletins/$id'
       fullPath: '/app/bulletins/$id'
       preLoaderRoute: typeof AuthenticatedAppBulletinsIdRouteImport
-      parentRoute: typeof AuthenticatedAppBulletinsRoute
+      parentRoute: typeof AuthenticatedAppRoute
     }
   }
 }
 
-interface AuthenticatedAppBulletinsRouteChildren {
-  AuthenticatedAppBulletinsIdRoute: typeof AuthenticatedAppBulletinsIdRoute
-  AuthenticatedAppBulletinsNewRoute: typeof AuthenticatedAppBulletinsNewRoute
-}
-
-const AuthenticatedAppBulletinsRouteChildren: AuthenticatedAppBulletinsRouteChildren =
-  {
-    AuthenticatedAppBulletinsIdRoute: AuthenticatedAppBulletinsIdRoute,
-    AuthenticatedAppBulletinsNewRoute: AuthenticatedAppBulletinsNewRoute,
-  }
-
-const AuthenticatedAppBulletinsRouteWithChildren =
-  AuthenticatedAppBulletinsRoute._addFileChildren(
-    AuthenticatedAppBulletinsRouteChildren,
-  )
-
-interface AuthenticatedAppClassesRouteChildren {
-  AuthenticatedAppClassesClassIdRoute: typeof AuthenticatedAppClassesClassIdRoute
-}
-
-const AuthenticatedAppClassesRouteChildren: AuthenticatedAppClassesRouteChildren =
-  {
-    AuthenticatedAppClassesClassIdRoute: AuthenticatedAppClassesClassIdRoute,
-  }
-
-const AuthenticatedAppClassesRouteWithChildren =
-  AuthenticatedAppClassesRoute._addFileChildren(
-    AuthenticatedAppClassesRouteChildren,
-  )
-
 interface AuthenticatedAppRouteChildren {
-  AuthenticatedAppBulletinsRoute: typeof AuthenticatedAppBulletinsRouteWithChildren
-  AuthenticatedAppClassesRoute: typeof AuthenticatedAppClassesRouteWithChildren
   AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+  AuthenticatedAppBulletinsIdRoute: typeof AuthenticatedAppBulletinsIdRoute
+  AuthenticatedAppBulletinsNewRoute: typeof AuthenticatedAppBulletinsNewRoute
+  AuthenticatedAppClassesClassIdRoute: typeof AuthenticatedAppClassesClassIdRoute
+  AuthenticatedAppBulletinsIndexRoute: typeof AuthenticatedAppBulletinsIndexRoute
+  AuthenticatedAppClassesIndexRoute: typeof AuthenticatedAppClassesIndexRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
-  AuthenticatedAppBulletinsRoute: AuthenticatedAppBulletinsRouteWithChildren,
-  AuthenticatedAppClassesRoute: AuthenticatedAppClassesRouteWithChildren,
   AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+  AuthenticatedAppBulletinsIdRoute: AuthenticatedAppBulletinsIdRoute,
+  AuthenticatedAppBulletinsNewRoute: AuthenticatedAppBulletinsNewRoute,
+  AuthenticatedAppClassesClassIdRoute: AuthenticatedAppClassesClassIdRoute,
+  AuthenticatedAppBulletinsIndexRoute: AuthenticatedAppBulletinsIndexRoute,
+  AuthenticatedAppClassesIndexRoute: AuthenticatedAppClassesIndexRoute,
 }
 
 const AuthenticatedAppRouteWithChildren =
@@ -311,3 +288,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

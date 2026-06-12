@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { mention } from "@/lib/grading";
 
-export const Route = createFileRoute("/_authenticated/app/bulletins")({
+export const Route = createFileRoute("/_authenticated/app/bulletins/")({
   component: BulletinsList,
 });
 
