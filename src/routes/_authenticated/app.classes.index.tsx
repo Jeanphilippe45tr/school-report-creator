@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogT
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/_authenticated/app/classes")({
+export const Route = createFileRoute("/_authenticated/app/classes/")({
   component: ClassesPage,
 });
 
