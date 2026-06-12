@@ -86,6 +86,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "BulletinPro — Bulletins scolaires en ligne" },
+      { name: "twitter:description", content: "Créez et imprimez les bulletins scolaires de vos élèves en quelques clics." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b2386680-edd6-4bb3-8c60-223d94625198/id-preview-7edf7961--4e2c063e-1710-41b6-85e9-439036f3644c.lovable.app-1781275380021.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b2386680-edd6-4bb3-8c60-223d94625198/id-preview-7edf7961--4e2c063e-1710-41b6-85e9-439036f3644c.lovable.app-1781275380021.png" },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
