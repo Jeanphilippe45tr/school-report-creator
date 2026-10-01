@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  GraduationCap, FileText, Users, Award, ShieldCheck, Download,
+  GraduationCap, FileText, Users, Award, ShieldCheck,
   Calculator, Trophy, Building2, Printer,
   CheckCircle2, ChevronDown, Clock, BookOpen, Lock,
 } from "lucide-react";
