@@ -1,12 +1,13 @@
 import { useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { useQueryClient } from "@tanstack/react-query";
-import { ScanLine, Loader2, Trash2, FileCheck2 } from "lucide-react";
+import { ScanLine, Loader2, Trash2, FileCheck2, PenLine } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { scanBulletinTemplate } from "@/lib/template-scan.functions";
 import { normalizeTemplate } from "@/lib/bulletin-template";
+import { TemplateManualEditor } from "./template-manual-editor";
 
 const ACCEPT = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
 
@@ -24,6 +25,7 @@ export function TemplateScanCard({ profile }: { profile: any }) {
   const scan = useServerFn(scanBulletinTemplate);
   const input = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
+  const [mode, setMode] = useState<"manual" | "scan">("manual");
   const tpl = normalizeTemplate(profile?.bulletin_template);
 
   async function onFile(file?: File) {
@@ -56,7 +58,7 @@ export function TemplateScanCard({ profile }: { profile: any }) {
     <section className="rounded-xl border border-border bg-card p-6">
       <h2 className="font-serif text-lg font-bold mb-1">Modèle de bulletin</h2>
       <p className="text-sm text-muted-foreground mb-4">
-        Scannez ou photographiez votre bulletin habituel (photo ou PDF). L'IA reproduit son format — en-tête, colonnes, couleurs, signatures — pour tous vos exports.
+        Choisissez votre format : décrivez-le vous-même gratuitement, ou laissez l'IA lire un scan de votre bulletin habituel.
       </p>
 
       {tpl && (
@@ -74,14 +76,40 @@ export function TemplateScanCard({ profile }: { profile: any }) {
         </div>
       )}
 
-      <input ref={input} type="file" accept={ACCEPT.join(",")} className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
-      <div className="flex flex-wrap gap-2">
-        <Button onClick={() => input.current?.click()} disabled={busy}>
-          {busy ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <ScanLine className="h-4 w-4 mr-1.5" />}
-          {busy ? "Analyse en cours…" : tpl ? "Importer un autre scan" : "Importer un scan de bulletin"}
-        </Button>
-        {tpl && <Button variant="outline" onClick={reset} disabled={busy}><Trash2 className="h-4 w-4 mr-1.5" />Modèle par défaut</Button>}
+      <div className="flex gap-1 mb-5 rounded-lg border border-border p-1 w-fit">
+        <button
+          type="button"
+          onClick={() => setMode("manual")}
+          className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${mode === "manual" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+        >
+          <PenLine className="h-4 w-4" /> Manuel — gratuit
+        </button>
+        <button
+          type="button"
+          onClick={() => setMode("scan")}
+          className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${mode === "scan" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+        >
+          <ScanLine className="h-4 w-4" /> Scan IA — ~0,1 crédit
+        </button>
       </div>
+
+      {mode === "scan" ? (
+        <div className="space-y-3">
+          <p className="text-sm text-muted-foreground">
+            Scannez ou photographiez votre bulletin (photo ou PDF). L'IA reproduit son format — en-tête, colonnes, couleurs, signatures — pour tous vos exports.
+          </p>
+          <input ref={input} type="file" accept={ACCEPT.join(",")} className="hidden" onChange={(e) => onFile(e.target.files?.[0])} />
+          <div className="flex flex-wrap gap-2">
+            <Button onClick={() => input.current?.click()} disabled={busy}>
+              {busy ? <Loader2 className="h-4 w-4 mr-1.5 animate-spin" /> : <ScanLine className="h-4 w-4 mr-1.5" />}
+              {busy ? "Analyse en cours…" : tpl ? "Importer un autre scan" : "Importer un scan de bulletin"}
+            </Button>
+            {tpl && <Button variant="outline" onClick={reset} disabled={busy}><Trash2 className="h-4 w-4 mr-1.5" />Modèle par défaut</Button>}
+          </div>
+        </div>
+      ) : (
+        <TemplateManualEditor current={tpl} onSaved={() => setMode("manual")} />
+      )}
     </section>
   );
 }
