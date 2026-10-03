@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { TemplateScanCard } from "@/components/template-scan-card";
 
 export const Route = createFileRoute("/_authenticated/app/settings")({
   component: SettingsPage,
@@ -68,6 +69,8 @@ function SettingsPage() {
             <div><Label>Pays</Label><Input value={form.country ?? ""} onChange={set("country")} /></div>
           </div>
         </section>
+
+        <TemplateScanCard profile={profile} />
       </div>
     </AppShell>
   );
