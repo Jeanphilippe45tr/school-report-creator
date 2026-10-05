@@ -27,14 +27,14 @@ function NotesEntry() {
   const [saving, setSaving] = useState(false);
 
   const { data: classes } = useQuery({ queryKey: ["classes"], queryFn: async () => (await supabase.from("classes").select("*").order("name")).data ?? [] });
-  const klass = classes?.find((c: any) => c.id === classId);
+  const klass: any = classes?.find((c: any) => c.id === classId);
   const { data: students } = useQuery({ queryKey: ["students", classId], enabled: !!classId, queryFn: async () => (await supabase.from("students").select("*").eq("class_id", classId).order("last_name")).data ?? [] });
   const { data: subjects } = useQuery({ queryKey: ["subjects", classId], enabled: !!classId, queryFn: async () => (await supabase.from("subjects").select("*").eq("class_id", classId).order("created_at")).data ?? [] });
   const { data: existing } = useQuery({
     queryKey: ["seqgrades", classId, subjectId, sequence, klass?.school_year],
     enabled: !!classId && !!subjectId && !!klass,
     queryFn: async () => {
-      const { data, error } = await db.from("sequence_grades").select("student_id, score").eq("class_id", classId).eq("subject_id", subjectId).eq("sequence", Number(sequence)).eq("school_year", klass.school_year);
+      const { data, error } = await db.from("sequence_grades").select("student_id, score").eq("class_id", classId).eq("subject_id", subjectId).eq("sequence", Number(sequence)).eq("school_year", klass!.school_year);
       if (error) throw error;
       return data as { student_id: string; score: number | null }[];
     },
