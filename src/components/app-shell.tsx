@@ -1,5 +1,5 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { GraduationCap, LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X } from "lucide-react";
+import { GraduationCap, LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, PencilLine } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 const nav = [
   { to: "/app", label: "Tableau de bord", icon: LayoutDashboard, exact: true },
   { to: "/app/classes", label: "Classes & élèves", icon: Users },
+  { to: "/app/notes", label: "Saisie des notes", icon: PencilLine },
   { to: "/app/bulletins", label: "Bulletins", icon: FileText },
   { to: "/app/settings", label: "Établissement", icon: Settings },
 ] as const;

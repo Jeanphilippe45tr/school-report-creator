@@ -27,9 +27,12 @@ function BulletinsList() {
     <AppShell
       title="Bulletins"
       action={
+        <div className="flex gap-2">
+        <Link to="/app/bulletins/generate"><Button>Générer par séquences</Button></Link>
         <Link to="/app/bulletins/new">
-          <Button><Plus className="h-4 w-4 mr-1.5" />Nouveau bulletin</Button>
+          <Button variant="outline"><Plus className="h-4 w-4 mr-1.5" />Bulletin manuel</Button>
         </Link>
+        </div>
       }
     >
       {bulletins?.length ? (

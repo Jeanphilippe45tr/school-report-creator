@@ -203,6 +203,64 @@ export type Database = {
           },
         ]
       }
+      sequence_grades: {
+        Row: {
+          class_id: string
+          id: string
+          owner_id: string
+          school_year: string
+          score: number | null
+          sequence: number
+          student_id: string
+          subject_id: string
+          updated_at: string
+        }
+        Insert: {
+          class_id: string
+          id?: string
+          owner_id: string
+          school_year: string
+          score?: number | null
+          sequence: number
+          student_id: string
+          subject_id: string
+          updated_at?: string
+        }
+        Update: {
+          class_id?: string
+          id?: string
+          owner_id?: string
+          school_year?: string
+          score?: number | null
+          sequence?: number
+          student_id?: string
+          subject_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sequence_grades_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sequence_grades_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sequence_grades_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       students: {
         Row: {
           birth_date: string | null
