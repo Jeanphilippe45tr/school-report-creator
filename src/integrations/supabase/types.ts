@@ -14,6 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
+      attendance_records: {
+        Row: {
+          class_id: string
+          created_at: string
+          hours: number
+          id: string
+          justified: boolean
+          kind: string
+          occurred_on: string
+          owner_id: string
+          reason: string | null
+          student_id: string
+        }
+        Insert: {
+          class_id: string
+          created_at?: string
+          hours?: number
+          id?: string
+          justified?: boolean
+          kind?: string
+          occurred_on?: string
+          owner_id: string
+          reason?: string | null
+          student_id: string
+        }
+        Update: {
+          class_id?: string
+          created_at?: string
+          hours?: number
+          id?: string
+          justified?: boolean
+          kind?: string
+          occurred_on?: string
+          owner_id?: string
+          reason?: string | null
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_records_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_records_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       classes: {
         Row: {
           created_at: string
@@ -40,6 +94,125 @@ export type Database = {
           school_year?: string
         }
         Relationships: []
+      }
+      discipline_records: {
+        Row: {
+          class_id: string
+          created_at: string
+          description: string | null
+          id: string
+          kind: string
+          occurred_on: string
+          owner_id: string
+          student_id: string
+        }
+        Insert: {
+          class_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind: string
+          occurred_on?: string
+          owner_id: string
+          student_id: string
+        }
+        Update: {
+          class_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          kind?: string
+          occurred_on?: string
+          owner_id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discipline_records_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "discipline_records_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      expenses: {
+        Row: {
+          amount: number
+          category: string | null
+          created_at: string
+          id: string
+          label: string
+          owner_id: string
+          spent_on: string
+        }
+        Insert: {
+          amount: number
+          category?: string | null
+          created_at?: string
+          id?: string
+          label: string
+          owner_id: string
+          spent_on?: string
+        }
+        Update: {
+          amount?: number
+          category?: string | null
+          created_at?: string
+          id?: string
+          label?: string
+          owner_id?: string
+          spent_on?: string
+        }
+        Relationships: []
+      }
+      fee_items: {
+        Row: {
+          amount: number
+          class_id: string
+          created_at: string
+          due_date: string | null
+          id: string
+          name: string
+          owner_id: string
+          position: number
+        }
+        Insert: {
+          amount?: number
+          class_id: string
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          name: string
+          owner_id: string
+          position?: number
+        }
+        Update: {
+          amount?: number
+          class_id?: string
+          created_at?: string
+          due_date?: string | null
+          id?: string
+          name?: string
+          owner_id?: string
+          position?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fee_items_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       grades: {
         Row: {
@@ -85,6 +258,67 @@ export type Database = {
             columns: ["subject_id"]
             isOneToOne: false
             referencedRelation: "subjects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          class_id: string
+          created_at: string
+          fee_item_id: string | null
+          id: string
+          method: string | null
+          note: string | null
+          owner_id: string
+          paid_on: string
+          student_id: string
+        }
+        Insert: {
+          amount: number
+          class_id: string
+          created_at?: string
+          fee_item_id?: string | null
+          id?: string
+          method?: string | null
+          note?: string | null
+          owner_id: string
+          paid_on?: string
+          student_id: string
+        }
+        Update: {
+          amount?: number
+          class_id?: string
+          created_at?: string
+          fee_item_id?: string | null
+          id?: string
+          method?: string | null
+          note?: string | null
+          owner_id?: string
+          paid_on?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_fee_item_id_fkey"
+            columns: ["fee_item_id"]
+            isOneToOne: false
+            referencedRelation: "fee_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "payments_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
             referencedColumns: ["id"]
           },
         ]
@@ -345,6 +579,63 @@ export type Database = {
             columns: ["class_id"]
             isOneToOne: false
             referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      timetable_slots: {
+        Row: {
+          class_id: string
+          created_at: string
+          day: number
+          end_time: string
+          id: string
+          label: string | null
+          owner_id: string
+          room: string | null
+          start_time: string
+          subject_id: string | null
+          teacher: string | null
+        }
+        Insert: {
+          class_id: string
+          created_at?: string
+          day: number
+          end_time: string
+          id?: string
+          label?: string | null
+          owner_id: string
+          room?: string | null
+          start_time: string
+          subject_id?: string | null
+          teacher?: string | null
+        }
+        Update: {
+          class_id?: string
+          created_at?: string
+          day?: number
+          end_time?: string
+          id?: string
+          label?: string | null
+          owner_id?: string
+          room?: string | null
+          start_time?: string
+          subject_id?: string | null
+          teacher?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "timetable_slots_class_id_fkey"
+            columns: ["class_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "timetable_slots_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subjects"
             referencedColumns: ["id"]
           },
         ]
