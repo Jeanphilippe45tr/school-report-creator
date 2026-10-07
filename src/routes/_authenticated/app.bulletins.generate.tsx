@@ -12,7 +12,7 @@ import { PERIODS, computeResults, type Period } from "@/lib/sequences";
 import { generateSequenceBulletins } from "@/lib/pdf-sequence-bulletin";
 
 export const Route = createFileRoute("/_authenticated/app/bulletins/generate")({
-  head: () => ({ meta: [{ title: "Générer les bulletins — BulletinPro" }] }),
+  head: () => ({ meta: [{ title: "Générer les bulletins — CampusManager" }] }),
   component: GenerateBulletins,
 });
 

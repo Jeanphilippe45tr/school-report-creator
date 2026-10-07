@@ -11,7 +11,7 @@ import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/auth")({
-  head: () => ({ meta: [{ title: "Connexion — BulletinPro" }] }),
+  head: () => ({ meta: [{ title: "Connexion — CampusManager" }] }),
   component: AuthPage,
 });
 
@@ -94,7 +94,7 @@ function AuthPage() {
           <div className="h-9 w-9 rounded-md bg-gold text-accent-foreground grid place-items-center">
             <GraduationCap className="h-5 w-5" />
           </div>
-          <span className="font-serif text-xl font-bold">BulletinPro</span>
+          <span className="font-serif text-xl font-bold">CampusManager</span>
         </Link>
         <div>
           <h2 className="font-serif text-4xl font-bold leading-tight">
@@ -104,7 +104,7 @@ function AuthPage() {
             Rejoignez les enseignants qui consacrent leur temps à enseigner — pas à recalculer des moyennes.
           </p>
         </div>
-        <p className="text-sm text-primary-foreground/60">© {new Date().getFullYear()} BulletinPro</p>
+        <p className="text-sm text-primary-foreground/60">© {new Date().getFullYear()} CampusManager</p>
       </div>
 
       <div className="flex items-center justify-center p-6 sm:p-10">
@@ -113,7 +113,7 @@ function AuthPage() {
             <div className="h-9 w-9 rounded-md bg-primary text-primary-foreground grid place-items-center">
               <GraduationCap className="h-5 w-5" />
             </div>
-            <span className="font-serif text-xl font-bold text-primary">BulletinPro</span>
+            <span className="font-serif text-xl font-bold text-primary">CampusManager</span>
           </Link>
 
           <h1 className="font-serif text-3xl font-bold text-foreground">Espace enseignant</h1>
