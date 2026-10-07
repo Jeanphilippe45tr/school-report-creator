@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { SEQUENCES, seqLabel } from "@/lib/sequences";
+import { seqLabel, termSeqs } from "@/lib/sequences";
 
 export const Route = createFileRoute("/_authenticated/app/notes")({
   head: () => ({ meta: [{ title: "Saisie des notes — BulletinPro" }] }),
@@ -22,7 +22,8 @@ function NotesEntry() {
   const qc = useQueryClient();
   const [classId, setClassId] = useState("");
   const [subjectId, setSubjectId] = useState("");
-  const [sequence, setSequence] = useState("1");
+  const [term, setTerm] = useState("1");
+  const [seqA, seqB] = termSeqs(Number(term) as 1 | 2 | 3);
   const [values, setValues] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
 
@@ -31,18 +32,18 @@ function NotesEntry() {
   const { data: students } = useQuery({ queryKey: ["students", classId], enabled: !!classId, queryFn: async () => (await supabase.from("students").select("*").eq("class_id", classId).order("last_name")).data ?? [] });
   const { data: subjects } = useQuery({ queryKey: ["subjects", classId], enabled: !!classId, queryFn: async () => (await supabase.from("subjects").select("*").eq("class_id", classId).order("created_at")).data ?? [] });
   const { data: existing } = useQuery({
-    queryKey: ["seqgrades", classId, subjectId, sequence, klass?.school_year],
+    queryKey: ["seqgrades", classId, subjectId, term, klass?.school_year],
     enabled: !!classId && !!subjectId && !!klass,
     queryFn: async () => {
-      const { data, error } = await db.from("sequence_grades").select("student_id, score").eq("class_id", classId).eq("subject_id", subjectId).eq("sequence", Number(sequence)).eq("school_year", klass!.school_year);
+      const { data, error } = await db.from("sequence_grades").select("student_id, sequence, score").eq("class_id", classId).eq("subject_id", subjectId).in("sequence", [seqA, seqB]).eq("school_year", klass!.school_year);
       if (error) throw error;
-      return data as { student_id: string; score: number | null }[];
+      return data as { student_id: string; sequence: number; score: number | null }[];
     },
   });
 
   useEffect(() => {
     const v: Record<string, string> = {};
-    existing?.forEach((e) => { if (e.score != null) v[e.student_id] = String(e.score); });
+    existing?.forEach((e) => { if (e.score != null) v[`${e.student_id}|${e.sequence}`] = String(e.score); });
     setValues(v);
   }, [existing]);
 
@@ -54,10 +55,10 @@ function NotesEntry() {
     }
     setSaving(true);
     const user = (await supabase.auth.getUser()).data.user!;
-    const rows = students.map((s: any) => ({
-      owner_id: user.id, class_id: classId, student_id: s.id, subject_id: subjectId,
-      school_year: klass.school_year, sequence: Number(sequence),
-      score: values[s.id] != null && values[s.id] !== "" ? parseFloat(values[s.id]) : null,
+    const rows = students.flatMap((s: any) => [seqA, seqB].map((q) => {
+      const v = values[`${s.id}|${q}`];
+      return { owner_id: user.id, class_id: classId, student_id: s.id, subject_id: subjectId,
+        school_year: klass.school_year, sequence: q, score: v != null && v !== "" ? parseFloat(v) : null };
     }));
     const { error } = await db.from("sequence_grades").upsert(rows, { onConflict: "student_id,subject_id,school_year,sequence" });
     setSaving(false);
@@ -67,7 +68,8 @@ function NotesEntry() {
   }
 
   const subject = subjects?.find((s: any) => s.id === subjectId);
-  const filled = students?.filter((s: any) => values[s.id]).length ?? 0;
+  const filled = Object.values(values).filter((v) => v !== "").length;
+  const avg = (id: string) => { const n = [seqA, seqB].map((q) => parseFloat(values[`${id}|${q}`])).filter((x) => !isNaN(x)); return n.length ? (n.reduce((a, b) => a + b, 0) / n.length).toFixed(2) : "—"; };
 
   return (
     <AppShell title="Saisie des notes" action={
@@ -91,38 +93,40 @@ function NotesEntry() {
           </Select>
         </div>
         <div>
-          <Label>Séquence</Label>
-          <Select value={sequence} onValueChange={setSequence}>
+          <Label>Trimestre</Label>
+          <Select value={term} onValueChange={setTerm}>
             <SelectTrigger><SelectValue /></SelectTrigger>
-            <SelectContent>{SEQUENCES.map((n) => <SelectItem key={n} value={String(n)}>{seqLabel(n)} — Trimestre {Math.ceil(n / 2)}</SelectItem>)}</SelectContent>
+            <SelectContent>{[1, 2, 3].map((t) => <SelectItem key={t} value={String(t)}>{t === 1 ? "1er" : `${t}e`} Trimestre (séquences {t * 2 - 1} et {t * 2})</SelectItem>)}</SelectContent>
           </Select>
         </div>
       </section>
 
       {!classId || !subjectId ? (
-        <p className="text-sm text-muted-foreground">Choisissez une classe, une matière et une séquence pour afficher la liste des élèves.</p>
+        <p className="text-sm text-muted-foreground">Choisissez une classe, une matière et un trimestre pour afficher la liste des élèves.</p>
       ) : !students?.length ? (
         <p className="text-sm text-muted-foreground">Aucun élève dans cette classe.</p>
       ) : (
         <section className="rounded-xl border border-border bg-card overflow-hidden">
           <div className="px-5 py-3 border-b border-border flex justify-between text-sm">
-            <span className="font-medium">{subject?.name} · {seqLabel(Number(sequence))}</span>
-            <span className="text-muted-foreground">{filled} / {students.length} notes saisies</span>
+            <span className="font-medium">{subject?.name} · Trimestre {term}</span>
+            <span className="text-muted-foreground">{filled} / {students.length * 2} notes saisies</span>
           </div>
           <table className="w-full text-sm">
             <thead className="bg-muted/50 text-left">
-              <tr><th className="p-3 w-12">N°</th><th className="p-3">Nom et prénoms</th><th className="p-3 w-32">Note /20</th></tr>
+              <tr><th className="p-3 w-12">N°</th><th className="p-3">Nom et prénoms</th><th className="p-3 w-32">{seqLabel(seqA)} /20</th><th className="p-3 w-32">{seqLabel(seqB)} /20</th><th className="p-3 w-24">Moyenne</th></tr>
             </thead>
             <tbody className="divide-y divide-border">
               {students.map((s: any, i: number) => (
                 <tr key={s.id}>
                   <td className="p-3 text-muted-foreground">{i + 1}</td>
                   <td className="p-3 font-medium">{s.last_name.toUpperCase()} {s.first_name}</td>
-                  <td className="p-2">
-                    <Input type="number" min="0" max="20" step="0.25" placeholder="—" value={values[s.id] ?? ""}
-                      onChange={(e) => setValues((p) => ({ ...p, [s.id]: e.target.value }))}
-                      onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); (document.querySelectorAll<HTMLInputElement>("input[type=number]")[i + 1])?.focus(); } }} />
-                  </td>
+                  {[seqA, seqB].map((q, c) => (
+                  <td key={q} className="p-2">
+                    <Input type="number" min="0" max="20" step="0.25" placeholder="—" data-cell={`${i}-${c}`} value={values[`${s.id}|${q}`] ?? ""}
+                      onChange={(e) => setValues((p) => ({ ...p, [`${s.id}|${q}`]: e.target.value }))}
+                      onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); document.querySelector<HTMLInputElement>(`[data-cell="${i + 1}-${c}"]`)?.focus(); } }} />
+                  </td>))}
+                  <td className="p-3 font-semibold text-primary">{avg(s.id)}</td>
                 </tr>
               ))}
             </tbody>
