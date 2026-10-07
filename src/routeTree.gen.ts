@@ -16,8 +16,11 @@ import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/ap
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppBulletinsRouteImport } from './routes/_authenticated/app.bulletins'
 import { Route as AuthenticatedAppClassesRouteImport } from './routes/_authenticated/app.classes'
+import { Route as AuthenticatedAppEmploiDuTempsRouteImport } from './routes/_authenticated/app.emploi-du-temps'
+import { Route as AuthenticatedAppFinancesRouteImport } from './routes/_authenticated/app.finances'
 import { Route as AuthenticatedAppNotesRouteImport } from './routes/_authenticated/app.notes'
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/app.settings'
+import { Route as AuthenticatedAppVieScolaireRouteImport } from './routes/_authenticated/app.vie-scolaire'
 import { Route as AuthenticatedAppBulletinsIndexRouteImport } from './routes/_authenticated/app.bulletins.index'
 import { Route as AuthenticatedAppBulletinsIdRouteImport } from './routes/_authenticated/app.bulletins.$id'
 import { Route as AuthenticatedAppBulletinsGenerateRouteImport } from './routes/_authenticated/app.bulletins.generate'
@@ -60,6 +63,18 @@ const AuthenticatedAppClassesRoute = AuthenticatedAppClassesRouteImport.update({
   path: '/classes',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppEmploiDuTempsRoute =
+  AuthenticatedAppEmploiDuTempsRouteImport.update({
+    id: '/emploi-du-temps',
+    path: '/emploi-du-temps',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppFinancesRoute =
+  AuthenticatedAppFinancesRouteImport.update({
+    id: '/finances',
+    path: '/finances',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppNotesRoute = AuthenticatedAppNotesRouteImport.update({
   id: '/notes',
   path: '/notes',
@@ -69,6 +84,12 @@ const AuthenticatedAppSettingsRoute =
   AuthenticatedAppSettingsRouteImport.update({
     id: '/settings',
     path: '/settings',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppVieScolaireRoute =
+  AuthenticatedAppVieScolaireRouteImport.update({
+    id: '/vie-scolaire',
+    path: '/vie-scolaire',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
 const AuthenticatedAppBulletinsIndexRoute =
@@ -114,8 +135,11 @@ export interface FileRoutesByFullPath {
   '/app': typeof AuthenticatedAppRouteWithChildren
   '/app/bulletins': typeof AuthenticatedAppBulletinsRouteWithChildren
   '/app/classes': typeof AuthenticatedAppClassesRouteWithChildren
+  '/app/emploi-du-temps': typeof AuthenticatedAppEmploiDuTempsRoute
+  '/app/finances': typeof AuthenticatedAppFinancesRoute
   '/app/notes': typeof AuthenticatedAppNotesRoute
   '/app/settings': typeof AuthenticatedAppSettingsRoute
+  '/app/vie-scolaire': typeof AuthenticatedAppVieScolaireRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/bulletins/$id': typeof AuthenticatedAppBulletinsIdRoute
   '/app/bulletins/generate': typeof AuthenticatedAppBulletinsGenerateRoute
@@ -127,8 +151,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/app/emploi-du-temps': typeof AuthenticatedAppEmploiDuTempsRoute
+  '/app/finances': typeof AuthenticatedAppFinancesRoute
   '/app/notes': typeof AuthenticatedAppNotesRoute
   '/app/settings': typeof AuthenticatedAppSettingsRoute
+  '/app/vie-scolaire': typeof AuthenticatedAppVieScolaireRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/bulletins/$id': typeof AuthenticatedAppBulletinsIdRoute
   '/app/bulletins/generate': typeof AuthenticatedAppBulletinsGenerateRoute
@@ -145,8 +172,11 @@ export interface FileRoutesById {
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/app/bulletins': typeof AuthenticatedAppBulletinsRouteWithChildren
   '/_authenticated/app/classes': typeof AuthenticatedAppClassesRouteWithChildren
+  '/_authenticated/app/emploi-du-temps': typeof AuthenticatedAppEmploiDuTempsRoute
+  '/_authenticated/app/finances': typeof AuthenticatedAppFinancesRoute
   '/_authenticated/app/notes': typeof AuthenticatedAppNotesRoute
   '/_authenticated/app/settings': typeof AuthenticatedAppSettingsRoute
+  '/_authenticated/app/vie-scolaire': typeof AuthenticatedAppVieScolaireRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/bulletins/$id': typeof AuthenticatedAppBulletinsIdRoute
   '/_authenticated/app/bulletins/generate': typeof AuthenticatedAppBulletinsGenerateRoute
@@ -163,8 +193,11 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/bulletins'
     | '/app/classes'
+    | '/app/emploi-du-temps'
+    | '/app/finances'
     | '/app/notes'
     | '/app/settings'
+    | '/app/vie-scolaire'
     | '/app/'
     | '/app/bulletins/$id'
     | '/app/bulletins/generate'
@@ -176,8 +209,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/app/emploi-du-temps'
+    | '/app/finances'
     | '/app/notes'
     | '/app/settings'
+    | '/app/vie-scolaire'
     | '/app'
     | '/app/bulletins/$id'
     | '/app/bulletins/generate'
@@ -193,8 +229,11 @@ export interface FileRouteTypes {
     | '/_authenticated/app'
     | '/_authenticated/app/bulletins'
     | '/_authenticated/app/classes'
+    | '/_authenticated/app/emploi-du-temps'
+    | '/_authenticated/app/finances'
     | '/_authenticated/app/notes'
     | '/_authenticated/app/settings'
+    | '/_authenticated/app/vie-scolaire'
     | '/_authenticated/app/'
     | '/_authenticated/app/bulletins/$id'
     | '/_authenticated/app/bulletins/generate'
@@ -261,6 +300,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppClassesRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/emploi-du-temps': {
+      id: '/_authenticated/app/emploi-du-temps'
+      path: '/emploi-du-temps'
+      fullPath: '/app/emploi-du-temps'
+      preLoaderRoute: typeof AuthenticatedAppEmploiDuTempsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/finances': {
+      id: '/_authenticated/app/finances'
+      path: '/finances'
+      fullPath: '/app/finances'
+      preLoaderRoute: typeof AuthenticatedAppFinancesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/notes': {
       id: '/_authenticated/app/notes'
       path: '/notes'
@@ -273,6 +326,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/app/settings'
       preLoaderRoute: typeof AuthenticatedAppSettingsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/vie-scolaire': {
+      id: '/_authenticated/app/vie-scolaire'
+      path: '/vie-scolaire'
+      fullPath: '/app/vie-scolaire'
+      preLoaderRoute: typeof AuthenticatedAppVieScolaireRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/bulletins/': {
@@ -360,16 +420,22 @@ const AuthenticatedAppClassesRouteWithChildren =
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppBulletinsRoute: typeof AuthenticatedAppBulletinsRouteWithChildren
   AuthenticatedAppClassesRoute: typeof AuthenticatedAppClassesRouteWithChildren
+  AuthenticatedAppEmploiDuTempsRoute: typeof AuthenticatedAppEmploiDuTempsRoute
+  AuthenticatedAppFinancesRoute: typeof AuthenticatedAppFinancesRoute
   AuthenticatedAppNotesRoute: typeof AuthenticatedAppNotesRoute
   AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
+  AuthenticatedAppVieScolaireRoute: typeof AuthenticatedAppVieScolaireRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppBulletinsRoute: AuthenticatedAppBulletinsRouteWithChildren,
   AuthenticatedAppClassesRoute: AuthenticatedAppClassesRouteWithChildren,
+  AuthenticatedAppEmploiDuTempsRoute: AuthenticatedAppEmploiDuTempsRoute,
+  AuthenticatedAppFinancesRoute: AuthenticatedAppFinancesRoute,
   AuthenticatedAppNotesRoute: AuthenticatedAppNotesRoute,
   AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
+  AuthenticatedAppVieScolaireRoute: AuthenticatedAppVieScolaireRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
 }
 
