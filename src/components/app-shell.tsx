@@ -1,5 +1,5 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { GraduationCap, LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, PencilLine } from "lucide-react";
+import { GraduationCap, LayoutDashboard, Users, FileText, Settings, LogOut, Menu, X, PencilLine, Wallet, CalendarClock, ShieldAlert } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -9,8 +9,11 @@ import { cn } from "@/lib/utils";
 const nav = [
   { to: "/app", label: "Tableau de bord", icon: LayoutDashboard, exact: true },
   { to: "/app/classes", label: "Classes & élèves", icon: Users },
-  { to: "/app/notes", label: "Saisie des notes", icon: PencilLine },
+  { to: "/app/notes", label: "Saisie des notes", icon: PencilLine, Wallet, CalendarClock, ShieldAlert },
   { to: "/app/bulletins", label: "Bulletins", icon: FileText },
+  { to: "/app/finances", label: "Finances", icon: Wallet },
+  { to: "/app/vie-scolaire", label: "Absences & discipline", icon: ShieldAlert },
+  { to: "/app/emploi-du-temps", label: "Emploi du temps", icon: CalendarClock },
   { to: "/app/settings", label: "Établissement", icon: Settings },
 ] as const;
 
@@ -43,7 +46,7 @@ export function AppShell({ children, title, action }: { children: ReactNode; tit
           <div className="h-8 w-8 rounded-md bg-sidebar-primary text-sidebar-primary-foreground grid place-items-center">
             <GraduationCap className="h-4 w-4" />
           </div>
-          <span className="font-serif text-lg font-bold">BulletinPro</span>
+          <span className="font-serif text-lg font-bold">CampusManager</span>
         </div>
         <nav className="p-3 space-y-1">
           {nav.map((n) => (

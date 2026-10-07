@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { seqLabel, termSeqs } from "@/lib/sequences";
 
 export const Route = createFileRoute("/_authenticated/app/notes")({
-  head: () => ({ meta: [{ title: "Saisie des notes — BulletinPro" }] }),
+  head: () => ({ meta: [{ title: "Saisie des notes — CampusManager" }] }),
   component: NotesEntry,
 });
 

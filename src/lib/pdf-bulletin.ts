@@ -200,7 +200,7 @@ export function generateBulletinPdf(opts: {
   doc.setFontSize(7);
   doc.setTextColor(120);
   if (tpl?.footer_note) doc.text(tpl.footer_note, pageWidth / 2, pageHeight - 10, { align: "center" });
-  doc.text(`Bulletin généré par BulletinPro · ${new Date().toLocaleDateString("fr-FR")}`, pageWidth / 2, pageHeight - 6, { align: "center" });
+  doc.text(`Bulletin généré par CampusManager · ${new Date().toLocaleDateString("fr-FR")}`, pageWidth / 2, pageHeight - 6, { align: "center" });
 
   doc.save(`Bulletin-${opts.student.last_name}-${opts.student.first_name}-${opts.reportCard.term.replace(/\s/g, "")}.pdf`);
 }

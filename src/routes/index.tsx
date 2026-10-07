@@ -10,13 +10,13 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "BulletinPro — Bulletins scolaires automatiques" },
+      { title: "CampusManager — Gestion d’établissement scolaire" },
       { name: "description", content: "Plateforme pour enseignants et établissements : créez, calculez et imprimez les bulletins scolaires de vos élèves. Moyennes pondérées, rangs, mentions et PDF officiels — en quelques clics." },
-      { property: "og:title", content: "BulletinPro — Bulletins scolaires automatiques" },
+      { property: "og:title", content: "CampusManager — Gestion d’établissement scolaire" },
       { property: "og:description", content: "Créez, calculez et imprimez les bulletins scolaires de vos élèves en quelques clics. Conçu pour les écoles francophones." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "BulletinPro — Bulletins scolaires automatiques" },
+      { name: "twitter:title", content: "CampusManager — Gestion d’établissement scolaire" },
       { name: "twitter:description", content: "Créez, calculez et imprimez les bulletins scolaires de vos élèves en quelques clics." },
     ],
   }),
@@ -47,10 +47,10 @@ const stats = [
 
 const faqs = [
   { q: "Qui peut consulter mes classes et mes notes ?", a: "Chaque enseignant dispose d'un compte personnel et ne peut accéder qu'à ses propres classes, élèves et bulletins. Vos données sont cloisonnées et sécurisées." },
-  { q: "Les moyennes et les rangs sont-ils calculés automatiquement ?", a: "Oui. Dès la saisie des notes, BulletinPro calcule les moyennes par matière, la moyenne générale pondérée par coefficients, le rang de l'élève et les mentions selon vos barèmes." },
+  { q: "Les moyennes et les rangs sont-ils calculés automatiquement ?", a: "Oui. Dès la saisie des notes, CampusManager calcule les moyennes par matière, la moyenne générale pondérée par coefficients, le rang de l'élève et les mentions selon vos barèmes." },
   { q: "Puis-je ajouter le nom et le logo de mon établissement ?", a: "Oui, depuis la page Établissement. Ces informations apparaissent en en-tête de chaque bulletin PDF, avec le trimestre et l'année scolaire." },
   { q: "Puis-je modifier un bulletin après l'avoir généré ?", a: "Bien sûr. Ouvrez le bulletin, ajustez les notes ou les appréciations : les moyennes et le rang sont recalculés instantanément et le PDF mis à jour." },
-  { q: "Faut-il installer un logiciel ?", a: "Non. BulletinPro fonctionne entièrement dans votre navigateur, sur ordinateur comme sur tablette. Rien à installer, rien à mettre à jour." },
+  { q: "Faut-il installer un logiciel ?", a: "Non. CampusManager fonctionne entièrement dans votre navigateur, sur ordinateur comme sur tablette. Rien à installer, rien à mettre à jour." },
 ];
 
 function FaqItem({ q, a }: { q: string; a: string }) {
@@ -78,7 +78,7 @@ function Landing() {
             <div className="h-9 w-9 rounded-md bg-primary text-primary-foreground grid place-items-center">
               <GraduationCap className="h-5 w-5" />
             </div>
-            <span className="font-serif text-xl font-bold text-primary">BulletinPro</span>
+            <span className="font-serif text-xl font-bold text-primary">CampusManager</span>
           </Link>
           <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
             <a href="#fonctionnalites" className="hover:text-foreground">Fonctionnalités</a>
@@ -147,7 +147,7 @@ function Landing() {
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground">Tout ce qu'il faut pour vos bulletins</h2>
           <p className="mt-4 text-muted-foreground">
-            De la création des classes à l'impression du bulletin officiel, BulletinPro accompagne chaque étape du trimestre.
+            De la création des classes à l'impression du bulletin officiel, CampusManager accompagne chaque étape du trimestre.
           </p>
         </div>
         <div className="mt-12 grid md:grid-cols-3 gap-6">
@@ -266,7 +266,7 @@ function Landing() {
       <section id="temoignages" className="border-y border-border bg-secondary scroll-mt-20">
         <div className="container mx-auto px-6 py-20">
           <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground">Ils ont adopté BulletinPro</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground">Ils ont adopté CampusManager</h2>
             <p className="mt-4 text-muted-foreground">Enseignants et directions qui ont dit adieu aux tableurs.</p>
           </div>
           <div className="mt-12 grid md:grid-cols-3 gap-6">
@@ -327,7 +327,7 @@ function Landing() {
                 <div className="h-8 w-8 rounded-md bg-primary text-primary-foreground grid place-items-center">
                   <GraduationCap className="h-4 w-4" />
                 </div>
-                <span className="font-serif text-lg font-bold text-primary">BulletinPro</span>
+                <span className="font-serif text-lg font-bold text-primary">CampusManager</span>
               </div>
               <p className="mt-3 text-sm text-muted-foreground max-w-xs">
                 La plateforme simple et sécurisée pour créer, calculer et imprimer les bulletins scolaires de vos élèves.
@@ -351,7 +351,7 @@ function Landing() {
             </div>
           </div>
           <div className="mt-10 pt-6 border-t border-border text-center text-sm text-muted-foreground">
-            © {new Date().getFullYear()} BulletinPro. Tous droits réservés.
+            © {new Date().getFullYear()} CampusManager. Tous droits réservés.
           </div>
         </div>
       </footer>

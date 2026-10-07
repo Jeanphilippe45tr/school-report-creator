@@ -118,7 +118,7 @@ export function generateSequenceBulletins(opts: {
     doc.setFont("helvetica", "bold"); doc.setFontSize(8);
     sigs.forEach((l, i) => doc.text(l, M + sw * i + sw / 2, sy, { align: "center" }));
     doc.setFont("helvetica", "normal"); doc.setFontSize(7); doc.setTextColor(120);
-    doc.text(`${opts.profile.city ? opts.profile.city + ", le " : "Le "}${new Date().toLocaleDateString("fr-FR")} · Généré par BulletinPro`, W / 2, H - 6, { align: "center" });
+    doc.text(`${opts.profile.city ? opts.profile.city + ", le " : "Le "}${new Date().toLocaleDateString("fr-FR")} · Généré par CampusManager`, W / 2, H - 6, { align: "center" });
   });
 
   doc.save(opts.fileName ?? `Bulletins-${opts.klass.name}-${opts.period}.pdf`.replace(/\s/g, "_"));
